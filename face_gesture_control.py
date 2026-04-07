@@ -1,29 +1,24 @@
 """
 Reels & Shorts Gesture Controller
 ===================================
-Controls YouTube Shorts / Instagram Reels using facial gestures.
+Controls  Instagram Reels(primary focus) / YouTube Shorts using facial gestures.
 Uses ONLY keyboard shortcuts — no mouse movement at all.
 
 HOW TO USE:
   1. Run this script in VS Code terminal
-  2. Open Chrome → go to YouTube Shorts or Instagram Reels
+  2. Open Chrome → go to  Instagram Reels or YouTube Shorts
   3. Click ONCE inside the Chrome window to give it focus
   4. Come back and do gestures — they fire into Chrome automatically
-  5. The small webcam window runs in the corner, never steals focus
 
 GESTURES:
+  Tilt head left        -> Next video / scroll down
+  Tilt head right       -> Previous video / scroll up
   Smile (hold 1s)       -> Like current video
-  Eyebrows UP (hold 1s) -> Next video / scroll down
-  Mouth OPEN (hold 1s)  -> Previous video / scroll up
 
-MODE SWITCHING (press key while webcam window is active):
-  Press 'y' -> YouTube Shorts mode  (Down/Up/L)
-  Press 'i' -> Instagram Reels mode (Down/Up/L)
-  Press 'q' -> Quit
 
 KEYBOARD SHORTCUTS USED:
-  YouTube Shorts:   Down Arrow = next,  Up Arrow = previous,  L = like
-  Instagram Reels:  Down Arrow = next, Up Arrow = previous,  L = like (may not work, no official shortcut)
+  YouTube Shorts:   Down Arrow = next,  Up Arrow = previous,  L = like (may not work, no official shortcut)
+  Instagram Reels:  Down Arrow = next, Up Arrow = previous,  L = like 
 
 Install:
   pip install mediapipe==0.10.14 opencv-python pyautogui numpy==1.26.4
@@ -467,7 +462,7 @@ GESTURE_LABELS = {
     'like'    : ('MOUTH OPEN -> LIKE', (200, 200, 80)),
     'next'    : ('LEFT TILT -> NEXT', (80, 180, 255)),
     'previous': ('RIGHT TILT -> PREV', (255, 140, 60)),
-    'none'    : ('No gesture — waiting...', (140, 140, 140)),
+    'none'    : ('No gesture', (140, 140, 140)),
 }
 
 
@@ -486,7 +481,7 @@ def draw_hud(frame, gesture, smile_r, brow_delta, mouth_r, fps):
 
     # Metric values    f"Smile:{smile_r:.3f}  "
     metrics = (
-               f"Brow:{brow_delta:+.3f}  "
+            #    f"Brow:{brow_delta:+.3f}  "
                f"Mouth:{mouth_r:.3f}  "
                f"FPS:{fps:.0f}")
     cv2.putText(frame, metrics, (12, 65),
@@ -503,14 +498,9 @@ def draw_hud(frame, gesture, smile_r, brow_delta, mouth_r, fps):
                 cv2.FONT_HERSHEY_PLAIN, 0.8, (0, 0, 0), 1)
 
     # Instructions at bottom
-    cv2.putText(frame, "Y=YouTube  I=Instagram  Q=Quit",
+    cv2.putText(frame, "Q=Quit",
                 (12, h - 10),
                 cv2.FONT_HERSHEY_PLAIN, 0.85, (100, 100, 100), 1, cv2.LINE_AA)
-
-    # Focus reminder — important!
-    cv2.putText(frame, "Click Chrome first!",
-                (w - 175, h - 10),
-                cv2.FONT_HERSHEY_PLAIN, 0.85, (0, 180, 255), 1, cv2.LINE_AA)
 
 
 # ─────────────────────────────────────────────
@@ -555,17 +545,14 @@ def main():
     print("  Reels & Shorts Gesture Controller")
     print("=" * 55)
     print("  GESTURES:")
-    print("    Head Nod        ->  Play/Pause")
-    print("    Eyebrows UP (hold)  ->  Next video")
-    print("    Mouth OPEN (hold)   ->  Previous video")
+    print("    Tilt Head Left        ->  Next video")
+    print("    Tilt Head Right       ->  Previous video")
+    print("    Mouth open            ->  Like / Dislike")
     print()
     print("  KEYS (in webcam window):")
-    print("    Y  ->  Switch to YouTube Shorts mode")
-    print("    I  ->  Switch to Instagram Reels mode")
     print("    Q  ->  Quit")
     print()
     print("  IMPORTANT: Click on Chrome FIRST to give it focus!")
-    print("  Current mode: YouTube Shorts")
     print("=" * 55)
 
     while True:
